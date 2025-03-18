@@ -1,12 +1,15 @@
-import { Form, InputNumber, DatePicker, Switch, Button, Card } from "antd";
+import { Form, InputNumber, DatePicker, Switch, Button, Card, Tag } from "antd";
 import axios from "axios";
 import { useState } from "react";
+import { Bar, BarChart, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { ChartEntry } from "./types";
 
 const { RangePicker } = DatePicker;
 
 const SmartInstallationForm = () => {
   const [form] = Form.useForm();
   const [isSmart, setIsSmart] = useState(false);
+  const [realUsage, setRealUsage] = useState(0);
 
   const onFinish = async (values: any) => {
 
@@ -21,7 +24,6 @@ const SmartInstallationForm = () => {
 
 
     const payload = {
-      realUsage: values.realUsage,
       realPower: values.realPower,
       startDate: values.dateRange ? values.dateRange[0].toISOString() : null,
       endDate: values.dateRange ? values.dateRange[1].toISOString() : null,
@@ -33,6 +35,7 @@ const SmartInstallationForm = () => {
       } : null
     };
 
+    setRealUsage(values.realUsage);
     console.log("Payload:", payload);
 
     // try {
@@ -55,15 +58,59 @@ const SmartInstallationForm = () => {
     criticalInfrastructurePercentage: 10
   }
 
-  return (
-    <Card title="Kalkulator zużycia" style={{ maxWidth: 600, margin: "auto" }}>
+  const data: ChartEntry[] = [{
+    date: "2025-03-01T00:00:00.000Z",
+    usage: 100
+  },{
+    date: "2025-04-01T00:00:00.000Z",
+    usage: 200
+  },{
+    date: "2025-05-01T00:00:00.000Z",
+    usage: 300
+  },{
+    date: "2025-06-01T00:00:00.000Z",
+    usage: 250
+  },{
+    date: "2025-07-01T00:00:00.000Z",
+    usage: 100
+  },{
+    date: "2025-08-01T00:00:00.000Z",
+    usage: 200
+  },{
+    date: "2025-09-01T00:00:00.000Z",
+    usage: 300
+  },{
+    date: "2025-10-01T00:00:00.000Z",
+    usage: 250
+  },{
+    date: "2025-11-01T00:00:00.000Z",
+    usage: 200
+  },{
+    date: "2025-12-01T00:00:00.000Z",
+    usage: 300
+  },{
+    date: "2026-01-01T00:00:00.000Z",
+    usage: 250
+  }]
+
+  const formattedData = data.map((item) => ({
+    ...item,
+    formattedDate: new Date(item.date).toLocaleDateString("en-US", { month: "short", year: "numeric" }),
+  }));
+
+  const maxUsage = Math.max(...data.map((item) => item.usage));
+  const sumUsage = data.reduce((acc, item) => acc + item.usage, 0);
+
+  return (<>
+  
+  <Card title="Kalkulator zużycia" style={{ maxWidth: 600, margin: "auto" }}>
       <Form form={form} layout="vertical" onFinish={onFinish} initialValues={initForm}>
         <Form.Item label="Zużycie w danym okresie" name="realUsage" rules={[{ required: true }]}> 
-          <InputNumber min={0} style={{ width: "100%" }} addonAfter="Wh" />
+          <InputNumber min={0} style={{ width: "100%" }} addonAfter="kWh" />
         </Form.Item>
 
         <Form.Item label="Moc instalacji" name="realPower" rules={[{ required: true }]}> 
-          <InputNumber min={0} style={{ width: "100%" }} addonAfter="W" />
+          <InputNumber min={0} style={{ width: "100%" }} addonAfter="kW" />
         </Form.Item>
 
         <Form.Item label="Date Range" name="dateRange" rules={[{ required: true }]}> 
@@ -94,12 +141,27 @@ const SmartInstallationForm = () => {
           <Button type="primary" htmlType="submit">Submit</Button>
         </Form.Item>
       </Form>
-
-        <code>
-            {JSON.stringify(form.getFieldsValue(), null, 2)}
-        </code>
-
     </Card>
+    <h1>Wyniki - szacowane zużycie</h1>
+    <div style={{ width: "100%", overflowX: "auto" }}> 
+    <ResponsiveContainer height={600}>
+      <BarChart height={600} data={formattedData}>
+        <XAxis dataKey="formattedDate" />
+        <YAxis domain={[0, maxUsage+100]} />
+        <Tooltip/>
+        <Bar dataKey="usage" fill="#8884d8">
+          <LabelList dataKey="usage" position="top" formatter={(value: string) => `${value} Wh`} />
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+      <p>Całkowite szacowane: <b>{sumUsage} kWh</b></p>
+      <p>Rzeczywiste: <b>{sumUsage} kWh</b></p>
+      <Tag color="#f00">Za duże zużycie</Tag>
+      <Tag color="#04d666">OK</Tag>
+      <Tag color="#2db7f5">Za małe zużycie</Tag>
+  </div>
+    
+    </>
   );
 };
 

@@ -4,6 +4,7 @@ import { Bar, BarChart, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } 
 import { algorithm } from "./logic";
 import { ALLOWED_DIFFERENCE, informationText, initForm, tagColor } from "./utils/constants";
 import { ChartEntry, INFO, Input } from "./utils/types";
+import { maxDomain } from "./utils/functions";
 
 const { RangePicker } = DatePicker;
 
@@ -105,9 +106,9 @@ const SmartInstallationForm = () => {
     </Card>
     {sumInfo !== 'tbd' && <><h1>Wyniki - szacowane zużycie</h1><div style={{ width: "100%", overflowX: "auto" }}> 
     <ResponsiveContainer height={600}>
-      <BarChart height={600} data={formattedData}>
+      <BarChart data={formattedData}>
         <XAxis dataKey="formattedDate" />
-        <YAxis domain={[0, maxUsage+100]} />
+        <YAxis domain={[0, maxDomain(maxUsage)]} />
         <Tooltip/>
         <Bar dataKey="usage" fill="#8884d8">
           <LabelList dataKey="usage" position="top" formatter={(value: string) => `${value} Wh`} />

@@ -25,4 +25,7 @@ export const informationText: Record<INFO, string> = {
     ['too_much']: 'Za duże zużycie',
     ['tbd']: 'Wprowadź dane'
   }
-  
+
+const center_of_Poland: [number, number] = [52.0692, 19.4803];
+const Wroclaw: [number, number] = [51.1079, 17.0385];
+export const LOCATION: [number, number] = center_of_Poland

@@ -1,11 +1,11 @@
 import { Form, InputNumber, DatePicker, Switch, Button, Card, Tag } from "antd";
 import { useState } from "react";
 import { Bar, BarChart, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { algorithm } from "./logic";
 import { ALLOWED_DIFFERENCE, informationText, initForm, tagColor } from "./utils/constants";
 import { ChartEntry, INFO, Input } from "./utils/types";
 import { maxDomain } from "./utils/functions";
 import MapPicker from "./MapPicker";
+import { callApiAlgorithm } from './logic';
 
 const { RangePicker } = DatePicker;
 
@@ -15,7 +15,7 @@ const SmartInstallationForm = () => {
   const [realUsage, setRealUsage] = useState(0);
   const [data, setData] = useState<ChartEntry[]>([]);
   const [sumInfo, setSumInfo] = useState<INFO>('tbd');
-  const [location, setLocation] = useState<[number, number] | null>(null);
+  const [location, setLocation] = useState<[number, number] | undefined>(undefined);
 
 
   const onFinish = async (values: any) => {
@@ -40,9 +40,9 @@ const SmartInstallationForm = () => {
       } : undefined
     };
 
-    const result = algorithm(payload);
+    const result = await callApiAlgorithm(payload, location);
     setData(result);
-
+    
     // Sum up the usage
     setRealUsage(values.realUsage);
     const sumUsage = result.reduce((acc, item) => acc + item.usage, 0);

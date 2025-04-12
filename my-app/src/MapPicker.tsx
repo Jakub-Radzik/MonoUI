@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import { useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { LOCATION } from "./utils/constants";
 
 const markerIcon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
@@ -14,7 +15,7 @@ type Props = {
 };
 
 const LocationMarker = ({ onLocationSelect }: Props) => {
-    const [position, setPosition] = useState<[number, number]>([52.0692, 19.4803]);
+    const [position, setPosition] = useState<[number, number]>([LOCATION[0], LOCATION[1]]);
 
   useMapEvents({
     click(e) {
@@ -31,7 +32,7 @@ const MapPicker = ({ onLocationSelect }: Props) => {
   return (
     <div style={{ height: '500px', width: '100%', marginBottom: '24px' }}>
       <MapContainer
-        center={[52.0692, 19.4803]}
+        center={[LOCATION[0], LOCATION[1]]}
         zoom={6.5}
         scrollWheelZoom={true}
         style={{ height: '100%', width: '100%', borderRadius: '8px' }}

@@ -36,3 +36,66 @@
     transform: rotate(360deg);
   }
 }
+
+.background-wrapper {
+  position: relative;
+  padding: 32px 24px;
+  z-index: 1;
+}
+
+.background-wrapper::before,
+.background-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  width: 200px;
+  height: 700px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.06;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.background-wrapper::before {
+  background-image: url("/public/logo_back1.png");
+  left: 24px;
+}
+
+.background-wrapper::after {
+  background-image: url("/public/logo_back2.png");
+  right: 24px;
+}
+
+.bottom-decoration::before,
+.bottom-decoration::after {
+  content: "";
+  position: absolute;
+  top: 800px;
+  width: 200px;
+  height: 700px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.06;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bottom-decoration::before {
+  background-image: url("/public/logo_back2.png");
+  left: 24px;
+}
+
+.bottom-decoration::after {
+  background-image: url("/public/logo_back1.png");
+  right: 24px;
+}
+
+@media (max-width: 1300px) {
+  .background-wrapper::before,
+  .background-wrapper::after,
+  .bottom-decoration::before,
+  .bottom-decoration::after {
+    display: none;
+  }
+}

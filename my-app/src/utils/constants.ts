@@ -2,6 +2,13 @@ import { INFO } from "./types";
 
 export const ALLOWED_DIFFERENCE = 0.05; 
 
+export const SUN_OPTIONS = [
+  { label: "Oficjalny", value: "official" },
+  { label: "Cywilny", value: "civil" },
+  { label: "Żeglarski", value: "nautical" },
+  { label: "Astronomiczny", value: "astronomical" },
+];
+
 export const initForm = {
     realUsage: 300,
     realPower: 100,
@@ -9,7 +16,8 @@ export const initForm = {
     percentageOfTotal: 100,
     dimmingPowerPercentage: 50,
     dimmingTimePercentage: 60,
-    criticalInfrastructurePercentage: 10
+    criticalInfrastructurePercentage: 10,
+    sunType: SUN_OPTIONS[0].value,
   }
 
 export const tagColor: Record<INFO, string> = {

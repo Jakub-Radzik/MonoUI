@@ -9,7 +9,8 @@ export type Input = {
     realPower: number,
     startDate: string,
     endDate: string,
-    intelligentSettings?: IntelligentSettings
+    intelligentSettings?: IntelligentSettings,
+    sunType?: string
 }
 
 export type IntelligentSettings = {

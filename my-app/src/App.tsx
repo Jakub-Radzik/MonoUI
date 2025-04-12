@@ -10,9 +10,6 @@ function App() {
           alt="Logo"
           style={{ height: "180px", marginBottom: "12px" }}
         />
-        <h1 style={{ margin: 0, fontSize: "28px", fontWeight: "500", color: "#333" }}>
-          Zużycie Prądu
-        </h1>
       </div>
 
       <div className="background-wrapper">

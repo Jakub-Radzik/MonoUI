@@ -1,7 +1,7 @@
-import { Form, InputNumber, DatePicker, Switch, Button, Card, Tag } from "antd";
+import { Form, InputNumber, DatePicker, Switch, Button, Card, Tag, Select } from "antd";
 import { useState } from "react";
 import { Bar, BarChart, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { ALLOWED_DIFFERENCE, informationText, initForm, tagColor } from "./utils/constants";
+import { ALLOWED_DIFFERENCE, informationText, initForm, SUN_OPTIONS, tagColor } from "./utils/constants";
 import { ChartEntry, INFO, Input } from "./utils/types";
 import { maxDomain } from "./utils/functions";
 import MapPicker from "./MapPicker";
@@ -16,7 +16,6 @@ const SmartInstallationForm = () => {
   const [data, setData] = useState<ChartEntry[]>([]);
   const [sumInfo, setSumInfo] = useState<INFO>('tbd');
   const [location, setLocation] = useState<[number, number] | undefined>(undefined);
-
 
   const onFinish = async (values: any) => {
     if (isSmart) {
@@ -37,7 +36,8 @@ const SmartInstallationForm = () => {
         dimmingPowerPercentage: values.dimmingPowerPercentage / 100,
         dimmingTimePercentage: values.dimmingTimePercentage / 100,
         criticalInfrastructurePercentage: values.criticalInfrastructurePercentage / 100,
-      } : undefined
+      } : undefined,
+      sunType: values.sunType || undefined
     };
 
     const result = await callApiAlgorithm(payload, location);
@@ -78,6 +78,12 @@ const SmartInstallationForm = () => {
 
         <Form.Item label="Zakres dat" name="dateRange" rules={[{ required: true }]}>
           <RangePicker picker="date" style={{ width: "100%" }} />
+        </Form.Item>
+
+        <Form.Item label="Typ wschodu słońca" name="sunType">
+          <Select
+            options={SUN_OPTIONS}
+          />
         </Form.Item>
 
         <Form.Item label="Lokalizacja instalacji">

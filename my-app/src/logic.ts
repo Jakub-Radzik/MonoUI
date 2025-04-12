@@ -12,7 +12,6 @@ export const callApiAlgorithm = async (
     realPower: payload.realPower,
     startDate: payload.startDate,
     endDate: payload.endDate,
-    sun_type: "civil",
     offset: 10,
     aggregation: "daily",
   };
@@ -33,6 +32,11 @@ export const callApiAlgorithm = async (
       criticalInfrastructurePercentage: payload.intelligentSettings.criticalInfrastructurePercentage ?? 0,
     };
   }
+  
+  if (payload.sunType) {
+    apiPayload.sun_type = payload.sunType;
+  }
+  
 
   try {
     const res = await fetch("https://vercel-django-test-virid.vercel.app/api/calculate-usage/", {

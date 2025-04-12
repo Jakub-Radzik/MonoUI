@@ -5,6 +5,7 @@ import { algorithm } from "./logic";
 import { ALLOWED_DIFFERENCE, informationText, initForm, tagColor } from "./utils/constants";
 import { ChartEntry, INFO, Input } from "./utils/types";
 import { maxDomain } from "./utils/functions";
+import MapPicker from "./MapPicker";
 
 const { RangePicker } = DatePicker;
 
@@ -14,6 +15,7 @@ const SmartInstallationForm = () => {
   const [realUsage, setRealUsage] = useState(0);
   const [data, setData] = useState<ChartEntry[]>([]);
   const [sumInfo, setSumInfo] = useState<INFO>('tbd');
+  const [location, setLocation] = useState<[number, number] | null>(null);
 
 
   const onFinish = async (values: any) => {
@@ -64,7 +66,7 @@ const SmartInstallationForm = () => {
   const sumUsage = data.reduce((acc, item) => acc + item.usage, 0);
 
   return (<>
-    <Card title="Kalkulator zużycia" style={{ maxWidth: 600, margin: "auto" }}>
+    <Card title="Kalkulator zużycia" style={{ maxWidth: 900, margin: "auto" }}>
       <Form form={form} layout="vertical" onFinish={onFinish} initialValues={initForm}>
         <Form.Item label="Zużycie w danym okresie" name="realUsage" rules={[{ required: true }]}>
           <InputNumber min={0} style={{ width: "100%" }} addonAfter="kWh" />
@@ -74,10 +76,14 @@ const SmartInstallationForm = () => {
           <InputNumber min={0} style={{ width: "100%" }} addonAfter="kW" />
         </Form.Item>
 
-        <Form.Item label="Date Range" name="dateRange" rules={[{ required: true }]}>
+        <Form.Item label="Zakres dat" name="dateRange" rules={[{ required: true }]}>
           <RangePicker picker="date" style={{ width: "100%" }} />
         </Form.Item>
 
+        <Form.Item label="Lokalizacja instalacji">
+          <MapPicker onLocationSelect={(lat, lng) => setLocation([lat, lng])} />
+        </Form.Item>
+        
         <Form.Item label="Instalacja inteligentna">
           <Switch checked={isSmart} onChange={(value) => setIsSmart(value)} />
         </Form.Item>
@@ -99,7 +105,7 @@ const SmartInstallationForm = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">Submit</Button>
+          <Button type="primary" htmlType="submit">Potwierdź</Button>
         </Form.Item>
       </Form>
     </Card>

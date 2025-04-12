@@ -47,9 +47,9 @@
 .background-wrapper::after {
   content: "";
   position: absolute;
-  top: 0px;
-  width: 200px;
-  height: 700px;
+  top: 100px;
+  width: 300px;
+  height: 800px;
   background-repeat: no-repeat;
   background-size: contain;
   opacity: 0.06;
@@ -71,9 +71,9 @@
 .bottom-decoration::after {
   content: "";
   position: absolute;
-  top: 800px;
-  width: 200px;
-  height: 700px;
+  top: 1200px;
+  width: 300px;
+  height: 800px;
   background-repeat: no-repeat;
   background-size: contain;
   opacity: 0.06;

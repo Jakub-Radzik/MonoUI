@@ -25,7 +25,7 @@ export const callApiAlgorithm = async (
 
   if (payload.intelligentSettings) {
     apiPayload.intelligentSettings = {
-      percentgeOfTotal: payload.intelligentSettings.percentageOfTotal ?? 0,
+      percentageOfTotal: payload.intelligentSettings.percentageOfTotal ?? 0,
       dimmingPowerPercentage:
         payload.intelligentSettings.dimmingPowerPercentage ?? 0,
       dimmingTimePercentage:
@@ -40,6 +40,7 @@ export const callApiAlgorithm = async (
   }
 
   try {
+    console.log("API Payload:", apiPayload);
     const res = await fetch(
       "https://vercel-django-test-virid.vercel.app/api/calculate-usage/",
       {
@@ -54,6 +55,9 @@ export const callApiAlgorithm = async (
     }
 
     const json = await res.json();
+
+    console.log("API Response:", json);
+
     const raw: ChartEntry[] = Array.isArray(json.results) ? json.results : [];
 
     if (!aggregateMonthly) return raw;

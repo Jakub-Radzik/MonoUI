@@ -1,10 +1,16 @@
-import './App.css';
-import SmartInstallationForm from './SmartInstalationForm';
+import "./App.css";
+import SmartInstallationForm from "./SmartInstalationForm";
 
 function App() {
   return (
     <div className="App">
-      <div style={{ textAlign: "center", paddingTop: "32px", paddingBottom: "16px" }}>
+      <div
+        style={{
+          textAlign: "center",
+          paddingTop: "32px",
+          paddingBottom: "16px",
+        }}
+      >
         <img
           src="logo.png"
           alt="Logo"

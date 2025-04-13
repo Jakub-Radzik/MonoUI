@@ -2,7 +2,6 @@ import { Input } from "./utils/types";
 import { LOCATION } from "./utils/constants";
 import { ChartEntry } from "./utils/types";
 
-
 export const callApiAlgorithm = async (
   payload: Input,
   location?: [number, number],
@@ -27,23 +26,28 @@ export const callApiAlgorithm = async (
   if (payload.intelligentSettings) {
     apiPayload.intelligentSettings = {
       percentgeOfTotal: payload.intelligentSettings.percentageOfTotal ?? 0,
-      dimmingPowerPercentage: payload.intelligentSettings.dimmingPowerPercentage ?? 0,
-      dimmingTimePercentage: payload.intelligentSettings.dimmingTimePercentage ?? 0,
-      criticalInfrastructurePercentage: payload.intelligentSettings.criticalInfrastructurePercentage ?? 0,
+      dimmingPowerPercentage:
+        payload.intelligentSettings.dimmingPowerPercentage ?? 0,
+      dimmingTimePercentage:
+        payload.intelligentSettings.dimmingTimePercentage ?? 0,
+      criticalInfrastructurePercentage:
+        payload.intelligentSettings.criticalInfrastructurePercentage ?? 0,
     };
   }
-  
+
   if (payload.sunType) {
     apiPayload.sun_type = payload.sunType;
   }
-  
 
   try {
-    const res = await fetch("https://vercel-django-test-virid.vercel.app/api/calculate-usage/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(apiPayload),
-    });
+    const res = await fetch(
+      "https://vercel-django-test-virid.vercel.app/api/calculate-usage/",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(apiPayload),
+      }
+    );
 
     if (!res.ok) {
       return [];

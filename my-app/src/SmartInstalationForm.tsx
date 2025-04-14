@@ -26,7 +26,7 @@ import {
   SUN_OPTIONS,
   tagColor,
 } from "./utils/constants";
-import { ChartEntry, INFO, Input } from "./utils/types";
+import { ChartEntry, FormValues, INFO, Input } from "./utils/types";
 import { maxDomain } from "./utils/functions";
 import MapPicker from "./MapPicker";
 import { callApiAlgorithm } from "./logic";
@@ -78,22 +78,35 @@ const SmartInstallationForm = () => {
     updateView();
   }, [viewMode]);
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: FormValues) => {
     if (isSmart) {
-      const sumInf =
-        values.criticalInfrastructurePercentage + values.percentageOfTotal;
-      if (sumInf > 100) {
+      if (values.criticalInfrastructurePercentage > 100) {
         alert(
           "Suma procentów inteligentnej instalacji nie może przekraczać 100%"
         );
+        return;
+      }
+
+      if (values.dimmingPowerPercentage > 100) {
+        alert("Moc nie moze być większa niż 100% mocy instalacji");
+        return;
+      }
+
+      if (values.dimmingTimePercentage > 100) {
+        alert("Czas nie moze być większa niż 100% czasu");
+        return;
+      }
+
+      if (values.percentageOfTotal > 100) {
+        alert("Procent nie moze być większy niż 100%");
         return;
       }
     }
 
     const payload: Input = {
       realPower: values.realPower,
-      startDate: values.dateRange ? values.dateRange[0].toISOString() : null,
-      endDate: values.dateRange ? values.dateRange[1].toISOString() : null,
+      startDate: values.dateRange[0].toISOString(),
+      endDate: values.dateRange[1].toISOString(),
       intelligentSettings: isSmart
         ? {
             percentageOfTotal: values.percentageOfTotal / 100,

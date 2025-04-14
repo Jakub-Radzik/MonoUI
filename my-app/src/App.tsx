@@ -11,7 +11,11 @@ function App() {
           paddingBottom: "16px",
         }}
       >
-        <h1>Zużycie energii</h1>
+        <img
+          src="logo.png"
+          alt="Logo"
+          style={{ height: "180px", marginBottom: "12px" }}
+        />
       </div>
 
       <div className="background-wrapper">
